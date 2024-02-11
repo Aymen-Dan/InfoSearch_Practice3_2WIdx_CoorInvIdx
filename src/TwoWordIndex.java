@@ -109,4 +109,71 @@ public class TwoWordIndex {
         }
     }
 
+
+
+    // TODO: Implement k-distance search
+    public ArrayList<Integer> search(String input) throws Exception {
+        // Convert the input to lowercase and remove extra whitespaces
+        input = input.toLowerCase();
+        String input_test = input.replaceAll("\\s+","");
+
+        // Check if the input matches the expected format
+        if (!input_test.matches("[\\w]+(((/)[0-9]+)?[\\w]+)*"))
+            throw new Exception("Incorrect format.");
+
+        String[] temp = input.split("[\\s]+");
+        ArrayList<Integer> res = new ArrayList();
+
+        // Handle the case where there are more than one word in the query
+        if(temp.length > 1) {
+            String s1 = temp[0] + " " + temp[1];
+            res = index.get(s1);
+
+            // Iterate through the remaining words in the query
+            for (int i = 1; i < temp.length - 1; i++) {
+                if (res == null) res = new ArrayList();
+                String s2 = temp[i] + " " + temp[i + 1];
+                res = intersection(res, index.get(s2));
+            }
+        }
+        // Handle the case where there is only one word in the query
+        else{
+            int counter=0;
+            for(String s3 : index.keySet()){
+                if(s3.contains(temp[0])){
+                    if(counter == 0) {
+                        res = index.get(s3);
+                        counter++;
+                    }
+                    else res = add(res, index.get(s3));
+                }
+                if (res == null) res = new ArrayList();
+            }
+        }
+        return res;
+    }
+
+    // Helper method to compute the intersection of two sets of document IDs
+    public ArrayList<Integer> intersection(ArrayList<Integer> first, ArrayList<Integer> second){
+        ArrayList<Integer> res = new ArrayList();
+
+        for(Integer i : first){
+            if(second.contains(i)) res.add(i);
+        }
+
+        return res;
+    }
+
+    // Helper method to add two sets of document IDs
+    public ArrayList<Integer> add(ArrayList<Integer> first, ArrayList<Integer> second){
+        ArrayList<Integer> res = new ArrayList();
+        for(Integer i : first){
+            if(!res.contains(i)) res.add(i);
+        }
+        for(Integer i : second){
+            if(!res.contains(i)) res.add(i);
+        }
+        return res;
+    }
+
 }
