@@ -96,7 +96,39 @@ public class CInvIndex {
         // If the word and document ID are already present, add the position to the list
         else index.get(word).get(doc).add(position);
     }
-    
+
+    // Method to print the inverted index
+    public void print() {
+        OutputStream out = new BufferedOutputStream(System.out);
+
+        // Iterate through each term in the index
+        for(String s: index.keySet()){
+            try {
+                out.write(( "\n"+s + ":").getBytes());
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Iterate through the document IDs and positions for each term
+            Set entrySet = index.get(s).entrySet();
+            for (Object o : entrySet) {
+                Map.Entry me = (Map.Entry) o;
+                try {
+                    out.write(("\n" + me.getKey() + ":" + me.getValue() + ";").getBytes());
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        try {
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // Method to search for phrases with specified distances
     public HashMap<Integer,ArrayList<Integer>> search(String input) throws Exception {
