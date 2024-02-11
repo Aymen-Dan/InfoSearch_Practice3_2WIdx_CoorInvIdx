@@ -112,7 +112,7 @@ public class TwoWordIndex {
 
 
     // TODO: Implement k-distance search
-    public ArrayList<Integer> search(String input) throws Exception {
+    public ArrayList<Integer> search(String input, int k) throws Exception {
         // Convert the input to lowercase and remove extra whitespaces
         input = input.toLowerCase();
         String input_test = input.replaceAll("\\s+","");
@@ -124,31 +124,22 @@ public class TwoWordIndex {
         String[] temp = input.split("[\\s]+");
         ArrayList<Integer> res = new ArrayList();
 
-        // Handle the case where there are more than one word in the query
-        if(temp.length > 1) {
-            String s1 = temp[0] + " " + temp[1];
-            res = index.get(s1);
+        // Iterate through each two-word phrase in the query
+        for (int i = 0; i < temp.length - 1; i++) {
+            String currentPhrase = temp[i] + " " + temp[i + 1];
+            ArrayList<Integer> currentMatches = index.get(currentPhrase);
 
-            // Iterate through the remaining words in the query
-            for (int i = 1; i < temp.length - 1; i++) {
-                if (res == null) res = new ArrayList();
-                String s2 = temp[i] + " " + temp[i + 1];
-                res = intersection(res, index.get(s2));
-            }
-        }
-        // Handle the case where there is only one word in the query
-        else{
-            int counter=0;
-            for(String s3 : index.keySet()){
-                if(s3.contains(temp[0])){
-                    if(counter == 0) {
-                        res = index.get(s3);
-                        counter++;
+
+            // If matches found for the current phrase, consider k-distance variations
+            if (currentMatches != null) {
+                for (Integer match : currentMatches) {
+                    // Check for k-distance variations in the remaining words of the query
+                    if (checkKDistance(temp, i + 2, match, k)) {
+                        res.add(match);
                     }
-                    else res = add(res, index.get(s3));
                 }
-                if (res == null) res = new ArrayList();
             }
+
         }
         return res;
     }
