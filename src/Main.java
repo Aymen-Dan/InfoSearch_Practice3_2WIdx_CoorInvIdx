@@ -43,7 +43,7 @@ public class Main {
                     System.out.println("Enter TWI:");
                     in.nextLine();
                     String input = in.nextLine();
-                    System.out.println(twi.search(input));
+                   // System.out.println(twi.search(input));
                     break;
                 case 6:
                     /**TODO: check if CII search works correctly*/
