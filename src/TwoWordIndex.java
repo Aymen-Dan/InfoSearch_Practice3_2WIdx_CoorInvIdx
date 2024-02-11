@@ -176,4 +176,31 @@ public class TwoWordIndex {
         return res;
     }
 
+
+    // Helper method to check k-distance variations in the remaining words of the query
+    private boolean checkKDistance(String[] query, int queryIndex, int matchIndex, int k) {
+        // Dynamic programming matrix for Levenshtein distance
+        int[][] dp = new int[query.length - queryIndex + 1][k + 1];
+
+        // Initialize the matrix
+        for (int i = 0; i <= k; i++) {
+            dp[0][i] = i;
+        }
+
+        // Fill the matrix using dynamic programming
+        for (int i = 1; i <= query.length - queryIndex; i++) {
+            for (int j = 0; j <= k; j++) {
+                if (j == 0) {
+                    dp[i][j] = i;
+                } else {
+                    int cost = (query[queryIndex + i - 1].equals(index.get(i - 1))) ? 0 : 1;
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1), dp[i - 1][j - 1] + cost);
+                }
+            }
+        }
+
+        // Check if the Levenshtein distance is within the specified k
+        return dp[query.length - queryIndex][k] <= k;
+    }
+
 }
