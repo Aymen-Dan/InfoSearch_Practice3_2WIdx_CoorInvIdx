@@ -1,0 +1,23 @@
+Word                 | Present in          
+-------------------------------
+0 1278               | Doc2 
+118 2437             | Doc1 
+34 0522              | Doc1 
+40 7128              | Doc3 
+51 5074              | Doc2 
+74 0060              | Doc3 
+area etc             | Doc1 Doc2 Doc3 
+attributes population | Doc1 Doc2 Doc3 
+city london          | Doc2 
+city los             | Doc1 
+city new             | Doc3 
+latitude 34          | Doc1 
+latitude 40          | Doc3 
+latitude 51          | Doc2 
+longitude 0          | Doc2 
+longitude 118        | Doc1 
+longitude 74         | Doc3 
+los angeles          | Doc1 
+new york             | Doc3 
+other attributes     | Doc1 Doc2 Doc3 
+population area      | Doc1 Doc2 Doc3 
