@@ -131,7 +131,7 @@ public class TwoWordIndex {
         // Split the input into an array of words
         String[] temp = input.split("[\\s]+");
         // Initialize the result ArrayList
-        ArrayList<Integer> res = new ArrayList();
+        ArrayList<Integer> res = new ArrayList<>();
 
         // Multiple words in the query
         if (temp.length > 1) {
@@ -143,7 +143,7 @@ public class TwoWordIndex {
             // Iterate through the remaining two-word phrases in the query
             for (int i = 1; i < temp.length - 1; i++) {
                 // Check if res is null, create a new ArrayList
-                if (res == null) res = new ArrayList();
+                if (res == null) res = new ArrayList<>();
                 // Form the current two-word phrase
                 String s2 = temp[i] + " " + temp[i + 1];
                 // Calculate the intersection of res with the document IDs of the current two-word phrase
@@ -168,12 +168,26 @@ public class TwoWordIndex {
                     }
                 }
                 // Check if res is null, create a new ArrayList
-                if (res == null) res = new ArrayList();
+                if (res == null) res = new ArrayList<>();
             }
         }
 
         return res;
+
     }
+
+    // Helper method to print search results in the new format
+    public void printSearchResults(String input, int k) throws Exception {
+        ArrayList<Integer> results = search( input,  k);
+        if (results.isEmpty()) {
+            System.out.println("No matches for the specified input!");
+        } else {
+            for (Integer docId : results) {
+                    System.out.println("Doc number: " + docId);
+            }
+        }
+    }
+
 
 
     // Helper method to compute the intersection of two sets of document IDs
